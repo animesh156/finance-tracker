@@ -3,7 +3,6 @@ import { useState } from "react";
 import axios from "axios";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
 import { Pencil, Trash, Check, X } from "lucide-react";
 
 export default function TransactionList({ transactions, setTransactions }) {
@@ -65,87 +64,74 @@ export default function TransactionList({ transactions, setTransactions }) {
   };
 
   return (
-    <div >
-    <h2 className="text-lg font-semibold mb-3">💰 Your Transactions</h2>
-    <div className="max-h-80 overflow-y-auto space-y-3 border border-gray-300 dark:border-gray-700 rounded-lg p-2">
-      <ul className="space-y-3">
-        <AnimatePresence>
+    <div>
+      <h2 className="text-lg font-semibold mb-3">💰 Your Transactions</h2>
+      <div className="max-h-80 overflow-y-auto border border-gray-300 dark:border-gray-700 rounded-lg p-2">
+        <ul className="space-y-3">
           {transactions.map((t) => (
-            <motion.li
+            <li
               key={t._id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 transition-all"
+              className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 transition-all md:w-xl w-full"
             >
               {editId === t._id ? (
-                <div className="grid grid-cols-5 gap-3 items-center">
+                <div className="flex flex-wrap items-center gap-2">
                   <Input
                     type="text"
                     value={editDescription}
                     onChange={(e) => setEditDescription(e.target.value)}
-                    className="col-span-2"
+                    className="flex-1 min-w-0"
                   />
                   <Input
                     type="number"
                     value={editAmount}
                     onChange={(e) => setEditAmount(e.target.value)}
-                    className="text-center"
+                    className="w-24 text-center"
                   />
                   <Input
                     type="date"
                     value={editDate}
                     onChange={(e) => setEditDate(e.target.value)}
-                    className="text-center"
+                    className="w-32 text-center"
                   />
                   <div className="flex gap-2">
-                    <Button
-                      onClick={handleUpdate}
-                      className="bg-green-500 text-white px-3"
-                    >
-                      <Check size={18} />
-                    </Button>
-                    <Button
-                      onClick={() => setEditId(null)}
-                      className="bg-gray-500 text-white px-3"
-                    >
-                      <X size={18} />
-                    </Button>
+                    
+                      <Check onClick={handleUpdate} className="md:size-5 hover:cursor-pointer text-green-400 hover:text-green-600 size-4" />
+                 
+                   
+                      <X onClick={() => setEditId(null)} className="md:size-5 size-4 hover:cursor-pointer text-red-500 hover:text-red-700" />
+                    
                   </div>
                 </div>
               ) : (
-                <div className="grid grid-cols-5 gap-3 items-center">
-                  <span className="text-sm font-medium truncate col-span-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-sm font-medium truncate flex-1">
                     {t.description}
                   </span>
-                  <span className="text-sm font-bold text-green-600 text-center">
+                  <span className="text-sm font-bold text-green-600 text-center w-20">
                     ${t.amount}
                   </span>
-                  <span className="text-xs text-gray-500 text-center">
+                  <span className="text-xs text-gray-500 text-center w-24">
                     {new Date(t.date).toLocaleDateString()}
                   </span>
                   <div className="flex gap-2">
-                    <Button
-                      onClick={() => handleEdit(t)}
-                      className="bg-blue-500 text-white px-3"
-                    >
-                      <Pencil size={16} />
-                    </Button>
-                    <Button
-                      onClick={() => handleDelete(t._id)}
-                      className="bg-red-500 text-white px-3"
-                    >
-                      <Trash size={16} />
-                    </Button>
+                   
+                    
+                      <Pencil  onClick={() => handleEdit(t)} className="md:size-5 text-blue-400 hover:cursor-pointer hover:text-blue-600 size-4" />
+                  
+                  
+                      <Trash onClick={() => handleDelete(t._id)} className="md:size-5 hover:cursor-pointer text-red-500 hover:text-red-700 size-4" />
+                   
+
+                   
+
+
                   </div>
                 </div>
               )}
-            </motion.li>
+            </li>
           ))}
-        </AnimatePresence>
-      </ul>
+        </ul>
+      </div>
     </div>
-  </div>
-  
   );
 }
