@@ -43,7 +43,7 @@ export default function Home() {
         </DialogContent>
       </Dialog>
 
-      {/* Content Wrapper */}
+     
       {/* Content Wrapper */}
 <div className="mt-8   grid grid-cols-1 md:grid-cols-2 gap-6">
   {/* Monthly Expense Chart */}
