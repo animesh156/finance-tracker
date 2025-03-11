@@ -50,7 +50,7 @@ export default function Dashboard() {
       <div className="flex gap-4">
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button className="w-48 bg-blue-600 hover:bg-blue-500">+ Add Transaction</Button>
+            <Button className="md:w-48 w-32 bg-blue-600 hover:bg-blue-500">+ Add Transaction</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
         <Dialog open={budgetModalOpen} onOpenChange={setBudgetModalOpen}>
           <DialogTrigger asChild>
-            <Button className="w-48 bg-green-600 hover:bg-green-500">📊 Set Budget</Button>
+            <Button className="md:w-48 w-32 bg-green-600 hover:bg-green-500">📊 Set Budget</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
