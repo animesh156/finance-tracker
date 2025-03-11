@@ -8,15 +8,28 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
 import CategoryPieChart from "@/components/CategoryChart";
+import BudgetForm from "@/components/BudgetForm";
+
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
+
 
 export default function Dashboard() {
   const [transactions, setTransactions] = useState([]);
+  const [budgets, setBudgets] = useState([]);
   const [isOpen, setIsOpen] = useState(false); // State to control modal
+  const [budgetModalOpen, setBudgetModalOpen] = useState(false)
 
   useEffect(() => {
     fetch("/api/transactions")
       .then((res) => res.json())
       .then((data) => setTransactions(data));
+
+      fetch("/api/budgets")
+      .then((res) => res.json())
+      .then((data) => setBudgets(data));
+
+
   }, []);
 
   // Calculate total expenses
@@ -33,43 +46,37 @@ export default function Dashboard() {
       </h1>
 
       {/* Add Transaction Button & Modal */}
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button 
-            className="w-full max-w-xs hover:cursor-pointer bg-blue-600 hover:bg-blue-500 transition-all shadow-md md:py-3 md:text-lg"
-            onClick={() => setIsOpen(true)} // Open modal on button click
-          >
-            + Add Transaction
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="border-gray-700 shadow-xl max-w-lg mx-auto">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-semibold">New Transaction</DialogTitle>
-          </DialogHeader>
-          <TransactionForm setTransactions={setTransactions} setIsOpen={setIsOpen} />
-        </DialogContent>
-      </Dialog>
+      <div className="flex gap-4">
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogTrigger asChild>
+            <Button className="w-48 bg-blue-600 hover:bg-blue-500">+ Add Transaction</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>New Transaction</DialogTitle>
+            </DialogHeader>
+            <TransactionForm setTransactions={setTransactions} setIsOpen={setIsOpen} />
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={budgetModalOpen} onOpenChange={setBudgetModalOpen}>
+          <DialogTrigger asChild>
+            <Button className="w-48 bg-green-600 hover:bg-green-500">📊 Set Budget</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Set Monthly Budget</DialogTitle>
+            </DialogHeader>
+            <BudgetForm setBudgets={setBudgets} setBudgetModalOpen={setBudgetModalOpen} />
+          </DialogContent>
+        </Dialog>
+      </div>
 
       {/* Summary Cards Section */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        {/* Total Expenses */}
-        <Card className="border  shadow-md">
-          <CardContent className="md:mt-28 text-center">
-            <h2 className="md:text-3xl font-semibold text-gray-700 dark:text-white">Total Expenses</h2>
-            <p className="md:text-2xl font-bold text-red-500">${totalExpenses.toFixed(2)}</p>
-          </CardContent>
-        </Card>
-
-        {/* Expenses by Category */}
-        <Card className="border  shadow-md">
-          <CardContent className="m-auto">
-            <h2 className="text-sm font-semibold text-gray-700 dark:text-white">Category Breakdown</h2>
-            <CategoryPieChart transactions={transactions} setTransactions={setTransactions} />
-          </CardContent>
-        </Card>
-
+      <div className="mt-8 grid xl:ml-4 justify-items-center grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-6 w-full">
+       
         {/* Recent Transactions */}
-        <Card className="border  shadow-md">
+        <Card className="border w-80  shadow-md">
           <CardContent className="p-4">
             <h2 className="text-lg font-semibold text-gray-700 dark:text-white">Recent Transactions</h2>
             <ul className="space-y-2">
@@ -80,6 +87,24 @@ export default function Dashboard() {
                 </li>
               ))}
             </ul>
+          </CardContent>
+        </Card>
+
+
+        {/* Expenses by Category */}
+        <Card className="border w-80 bg-amber-300  shadow-md">
+        
+            <h2 className="text-sm font-semibold ml-3 text-gray-700 dark:text-white">Category Breakdown</h2>
+            <CategoryPieChart transactions={transactions} setTransactions={setTransactions} />
+         
+        </Card>
+
+       
+         {/* Total Expenses */}
+         <Card className="border w-80  shadow-md">
+          <CardContent className="xl:mt-28  text-center">
+            <h2 className="xl:text-3xl md:text-xl font-semibold text-gray-700 dark:text-white">Total Expenses</h2>
+            <p className="xl:text-2xl md:text-xl font-bold text-red-500">${totalExpenses.toFixed(2)}</p>
           </CardContent>
         </Card>
       </div>
@@ -100,6 +125,43 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+
+     
+
+      {/* Budget vs. Actual Chart */}
+{/* Budget vs. Actual Chart */}
+<Card className="border shadow-md mt-6">
+  <CardContent>
+    <h2 className="text-lg font-semibold text-gray-700 dark:text-white">Budget vs. Actual</h2>
+    <div className="w-full overflow-x-auto">
+      <div className=" xl:w-[900px] md:w-[680px] w-[380px] h-auto "> {/* Fixed width based on screen size */}
+        <ResponsiveContainer width="100%" height={370} >
+          <BarChart 
+            data={budgets.map((b) => ({
+              category: b.category,
+              budget: b.amount,
+              actual: transactions
+                .filter((t) => t.category === b.category)
+                .reduce((sum, t) => sum + t.amount, 0),
+            }))}
+            margin={{ top: 20, right: 30, left: 10, bottom: 10 }}
+          >
+            <XAxis dataKey="category" className="xl:text-md md:text-sm text-[6px]"  textAnchor="end" interval={0} />
+            <YAxis />
+            <Tooltip />
+            <Legend  />
+            
+            <Bar dataKey="budget" margin={{top:20}}   fill="#8884d8" />
+            <Bar dataKey="actual" fill="#82ca9d" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  </CardContent>
+</Card>
+
+
     </div>
   );
 }

@@ -1,12 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function CategoryPieChart({ transactions }) {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A83279", "#7D3C98"];
 
-  console.log(transactions)
+  console.log(transactions);
 
   // 🔥 Use useMemo to ensure `chartData` updates immediately when transactions change
   const chartData = useMemo(() => {
@@ -28,14 +28,26 @@ export default function CategoryPieChart({ transactions }) {
   }, [transactions]); // ✅ Depend only on `transactions`, recompute instantly when it changes
 
   return (
-    <PieChart width={300} height={280}>
-      <Pie data={chartData} cx="50%" cy="50%" label outerRadius={80} fill="#8884d8" dataKey="value">
-        {chartData.map((_, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-    </PieChart>
+
+      <ResponsiveContainer width="100%" height={350} minWidth={180}  maxWidth={400}>
+        <PieChart>
+          <Pie
+            data={chartData}
+            cx="50%"
+            cy="50%"
+            label
+            outerRadius="80%"
+            fill="#8884d8"
+            dataKey="value"
+          >
+            {chartData.map((_, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+ 
   );
 }

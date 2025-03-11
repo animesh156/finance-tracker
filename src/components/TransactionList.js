@@ -71,7 +71,7 @@ export default function TransactionList({ transactions, setTransactions }) {
           {transactions.map((t) => (
             <li
               key={t._id}
-              className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 transition-all md:w-xl w-full"
+              className="p-3 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-900 transition-all xl:w-[580px]  w-full"
             >
               {editId === t._id ? (
                 <div className="flex flex-wrap items-center gap-2">
