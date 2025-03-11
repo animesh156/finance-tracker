@@ -16,8 +16,8 @@ export async function GET() {
 export async function POST(req) {
   try {
     const db = await connectDB();
-    const { amount, date, description } = await req.json();
-    const result = await db.collection("transactions").insertOne({ amount, date, description });
+    const { amount, date, description, category } = await req.json();
+    const result = await db.collection("transactions").insertOne({ amount, date, description, category });
     return Response.json({ _id: result.insertedId, amount, date, description }, { status: 201 });
   } catch (error) {
     return Response.json({ error: "Failed to add transaction" }, { status: 500 });
@@ -28,7 +28,7 @@ export async function POST(req) {
 export async function PUT(req) {
   try {
     const db = await connectDB();
-    const { id, amount, date, description } = await req.json();
+    const { id, amount, date, description, category } = await req.json();
 
     if (!id) {
         return Response.json({ error: "Missing transaction ID" }, { status: 400 });
