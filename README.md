@@ -5,16 +5,24 @@ A simple web application to track personal finances, visualize expenses, and man
 
 ## 🚀 Features
 
-- ✅ Add, Edit, Delete Transactions
+- ✔ Track Transactions – Add, edit, and delete expenses with predefined categories.
 
-- ✅ Data Persistence with MongoDB
+- ✔ Spending Insights – Get automatic analysis of your expenses, largest spending category, and budget status.
+
+- ✔ Budget Management – Set monthly category budgets and compare actual spending vs. planned.
+
+- ✔ Data Visualization – See spending trends with bar and pie charts (Recharts).
+
+- ✔ Fully Responsive – Works smoothly on desktop, tablet, and mobile.
 
 
 
 
 ## Tech Stack
 
-- Next.js, Tailwind CSS, shadcn/ui, MongoDB
+- Frontend: Next.js, React, Tailwind CSS, shadcn/ui, Recharts
+- Backend: MongoDB Atlas
+
 
 
 
@@ -53,7 +61,10 @@ npm run dev
 ```
 
 
-
+## 📌 Usage
+- 1️⃣ Add transactions – Enter amount, category, and date.
+- 2️⃣ Set budgets – Define spending limits per category.
+- 3️⃣ Analyze insights – View spending breakdown and alerts.
 
 
 
