@@ -6,6 +6,8 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 export default function CategoryPieChart({ transactions }) {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A83279", "#7D3C98"];
 
+  console.log(transactions)
+
   // 🔥 Use useMemo to ensure `chartData` updates immediately when transactions change
   const chartData = useMemo(() => {
     if (!transactions || transactions.length === 0) return [];
