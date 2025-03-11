@@ -151,7 +151,7 @@ export default function Dashboard() {
   <CardContent>
     <h2 className="text-lg font-semibold text-gray-700 dark:text-white">Budget vs. Actual</h2>
     <div className="w-full overflow-x-auto">
-      <div className=" xl:w-[900px] md:w-[680px] w-[380px] h-auto "> {/* Fixed width based on screen size */}
+      <div className=" xl:w-[900px] md:w-[680px] w-[335px] h-auto "> {/* Fixed width based on screen size */}
         <ResponsiveContainer width="100%" height={370} >
           <BarChart 
             data={budgets.map((b) => ({
