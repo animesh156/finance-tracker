@@ -50,7 +50,7 @@ export default function Dashboard() {
       <div className="flex gap-4">
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button className="w-48 bg-blue-600 hover:bg-blue-500">+ Add Transaction</Button>
+            <Button className="w-48 bg-blue-600 hover:cursor-pointer hover:bg-blue-500">+ Add Transaction</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -62,7 +62,7 @@ export default function Dashboard() {
 
         <Dialog open={budgetModalOpen} onOpenChange={setBudgetModalOpen}>
           <DialogTrigger asChild>
-            <Button className="w-48 bg-green-600 hover:bg-green-500">📊 Set Budget</Button>
+            <Button className="w-48 bg-green-600 hover:cursor-pointer hover:bg-green-500">📊 Set Budget</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -151,7 +151,7 @@ export default function Dashboard() {
   <CardContent>
     <h2 className="text-lg font-semibold text-gray-700 dark:text-white">Budget vs. Actual</h2>
     <div className="w-full overflow-x-auto">
-      <div className=" xl:w-[900px] md:w-[680px] w-[380px] h-auto "> {/* Fixed width based on screen size */}
+      <div className=" xl:w-[900px] md:w-[680px] w-[325px] h-auto "> {/* Fixed width based on screen size */}
         <ResponsiveContainer width="100%" height={370} >
           <BarChart 
             data={budgets.map((b) => ({
